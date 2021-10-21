@@ -14,6 +14,4 @@ def populate_index():
             "City_area":city_area,
             "City_population":city_population
         }
-        res = es.index(index="demo_cities", id=i, body=doc)
-
-populate_index()
+        res = es.index(index="cities", id=i, body=doc)
