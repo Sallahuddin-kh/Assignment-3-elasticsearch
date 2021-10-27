@@ -1,0 +1,154 @@
+PUT /cities
+{
+  "settings": {
+    "index":{
+      "number_of_shards" : 1,
+      "number_of_replicas" : 0
+    }
+  },
+  "mappings": {
+    "properties": {
+      "City_name":{
+        "type": "keyword"
+      },
+      "Country_name":{
+        "type": "keyword"
+      },
+      "City_area":{
+        "type": "integer"
+      },
+      "City_population":{
+        "type": "float"
+      }
+      
+    }
+  }
+}
+
+GET /cities/_mapping
+
+GET /cities/_search
+
+GET /cities/_search
+{
+  "track_total_hits": true, 
+  "query": {
+    "term":{
+      "Country_name": "country_10"
+    }
+  }
+}
+
+GET /cities/_search
+{
+  "track_total_hits": true, 
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "term": {
+            "Country_name": {
+              "value": "country_1"
+            }
+          }
+        },
+        {
+           "term": {
+             "Country_name": {
+               "value": "country_3"
+             }
+           } 
+        }
+      ]
+    }
+  }
+}
+
+GET /cities/_search
+{
+  "query": {
+    "range": {
+      "City_area": {
+        "gte": 10,
+        "lte": 15
+      }
+    }
+  }
+}
+
+GET /cities/_search
+{
+  "size": 0,
+  "aggs": {
+    "aggregate-1": {
+      "avg": {
+        "field": "City_population"
+      }
+    }
+  }
+}
+
+GET /cities/_search
+{
+  "size": 0,
+  "aggs": {
+    "country-city-population": {
+      "terms": {
+        "field": "Country_name"
+        , "size": 50
+      },
+      "aggs":{
+        "average-city-area":{
+          "avg": {
+              "field": "City_area"
+            }
+        }
+      }
+    }
+  }
+}
+
+
+GET /cities/_search
+{
+  "size": 0,
+  "aggs": {
+    "min-pop": {
+      "min": {
+        "field": "City_population"
+      }
+    }
+  }
+}
+
+GET /cities/_search
+{
+  "size": 0,
+  "aggs": {
+    "max-area": {
+      "max": {
+        "field": "City_area"
+      }
+    }
+  }
+}
+
+GET /cities/_search
+{
+  "size": 0,
+  "aggs": {
+    "country-number-of-cities": {
+      "terms": {
+        "field": "Country_name"
+        , "size": 50
+      },
+      "aggs":{
+        "number-of-cities":{
+          "value_count": {
+              "field": "City_name"
+            }
+        }
+      }
+    }
+  }
+}
