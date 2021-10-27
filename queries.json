@@ -108,7 +108,6 @@ GET /cities/_search
   }
 }
 
-
 GET /cities/_search
 {
   "size": 0,
